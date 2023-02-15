@@ -7,3 +7,4 @@
 - ceated user and posts schemas
 - integrated posts and users schemas
 - implemented nextauth w/ google/github auth
+- utilized react query to fetch information from API
