@@ -19,7 +19,7 @@ export default async function handler(
 
     // get user
     const prismaUser = await prisma.user.findUnique({
-      where: { email: session?.user?.email },
+      where: { email: session?.user?.email ?? undefined },
     });
 
     // check title length
@@ -32,7 +32,7 @@ export default async function handler(
       const result = await prisma.post.create({
         data: {
           title,
-          userId: prismaUser.id,
+          userId: prismaUser?.id as string,
         },
       });
       res.status(200).json(result);
