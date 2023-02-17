@@ -1,6 +1,6 @@
 # GroupUp v2
 
-Remake group up but with updated framework, typescript, full login/reg JWT etc.
+Remake group up but with updated framework, typescript, full login/reg etc.
 
 - [x] Login with google, github, etc.
 - [x] Can view home page not logged in but require login to create a post
