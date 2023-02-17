@@ -2,7 +2,7 @@
 
 Remake group up but with updated framework, typescript, full login/reg JWT etc.
 
-- Login with google, github, etc.
+- [x] Login with google, github, etc.
 - Can view home page not logged in but require login to create a post
 - Logged in users can like, comment and view posts
 - Posts will have: name, title, image, description, location, posted by {user}
