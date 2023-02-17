@@ -12,6 +12,7 @@ type EditProps = {
   avatar: string;
   name: string;
   title: string;
+  description: string;
   comments?: {
     id: string;
     postId: string;
@@ -23,6 +24,7 @@ export default function EditPost({
   avatar,
   name,
   title,
+  description,
   comments,
   id,
 }: EditProps) {
@@ -67,6 +69,9 @@ export default function EditPost({
         </div>
         <div className="my-8">
           <p className="break-all text-gray-700 text-lg">{title}</p>
+        </div>
+        <div className="my-8">
+          <p className="break-all text-gray-700 text-lg">{description}</p>
         </div>
         <div className="flex items-center gap-4 cursor-pointer">
           <p className="text-sm font-bold text-gray-700">

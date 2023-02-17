@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import CreatePost from "./components/CreatePost";
+import CreatePost from "./createpost/CreatePost";
 import { useQuery } from "@tanstack/react-query";
 import Posts from "./components/Posts";
 import { PostType } from "./types/Posts";
@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <main>
-      <CreatePost />
+      {/* <CreatePost /> */}
       {data?.map((post) => (
         <Posts
           comments={post.comments}
@@ -30,6 +30,7 @@ export default function Home() {
           name={post.user.name}
           avatar={post.user.image}
           postTitle={post.title}
+          description={post.description}
           id={post.id}
         />
       ))}

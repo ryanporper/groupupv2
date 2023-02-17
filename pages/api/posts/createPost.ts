@@ -15,8 +15,8 @@ export default async function handler(
         .status(401)
         .json({ message: "Please login to create a post." });
     }
-    const title: string = req.body.title;
-
+    // const title: string = req.body.title;
+    const { title, description } = req.body;    
     // get user
     const prismaUser = await prisma.user.findUnique({
       where: { email: session?.user?.email ?? undefined },
@@ -27,11 +27,15 @@ export default async function handler(
       return res.status(403).json({ message: "Title too long" });
     if (!title.length)
       return res.status(403).json({ message: "Title must be filled out" });
+    if (!description.length)
+      return res.status(403).json({ message: "Description must be filled out" });
 
     try {
       const result = await prisma.post.create({
         data: {
           title,
+          // @ts-ignore
+          description,
           userId: prismaUser?.id as string,
         },
       });

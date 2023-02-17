@@ -15,6 +15,7 @@ type URL = {
 interface Comment {
   id: number;
   title: string;
+  description: string;
   user: {
     name: string;
     image: string;
@@ -42,6 +43,7 @@ export default function PostDetail(url: URL) {
         name={data.user.name}
         avatar={data.user.image}
         postTitle={data.title}
+        description={data.description}
         comments={data.comments}
       />
       <AddComment id={data?.id} />
