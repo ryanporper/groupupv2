@@ -58,19 +58,12 @@ export default function Post({
             </p>
           )}
         </div>
-
         <p className="mt-1 mb-4">{description}</p>
-
         {location && <p className="my-1">{location}</p>}
-
         {media && (
-          <img
-            src={media}
-            alt="media"
-            className="rounded-lg"
-            width="100%"
-            height="500"
-          />
+          <div className="flex justify-center">
+            <img src={media} alt="media" className="rounded-lg" />
+          </div>
         )}
       </div>
       <div className="flex gap-4 mt-2 cursor-pointer items-center">
