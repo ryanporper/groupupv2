@@ -30,6 +30,7 @@ export default function UserPosts() {
           price={post.price}
           location={post.location}
           media={post.media}
+          embedLink={post.embedLink}
           comments={post.comments}
         />
       ))}

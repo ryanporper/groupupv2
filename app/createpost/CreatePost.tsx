@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import Script from "next/script";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -15,7 +16,22 @@ export default function CreatePost() {
   const [media, setMedia] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const queryClient = useQueryClient();
+  const locationInputRef = useRef(null);
   let toastPostId: string;
+
+  useEffect(() => {
+    //@ts-ignore
+    if (typeof google !== "undefined") {
+      //@ts-ignore
+      const autocomplete = new google.maps.places.Autocomplete(
+        locationInputRef.current
+      );
+      autocomplete.addListener("place_changed", () => {
+        //@ts-ignore
+        setLocation(locationInputRef.current.value);
+      });
+    }
+  }, []);
 
   // create post
   const { mutate } = useMutation(
@@ -26,6 +42,7 @@ export default function CreatePost() {
       price,
       location,
       media,
+      embedLink,
     }: {
       title: string;
       description: string;
@@ -33,6 +50,7 @@ export default function CreatePost() {
       price: string;
       location: string;
       media: string;
+      embedLink: string;
     }) =>
       await axios.post("/api/posts/createPost", {
         title,
@@ -41,6 +59,7 @@ export default function CreatePost() {
         price,
         location,
         media,
+        embedLink,
       }),
     {
       onError: (error) => {
@@ -67,11 +86,26 @@ export default function CreatePost() {
     e.preventDefault();
     toastPostId = toast.loading("Creating post...", { id: toastPostId });
     setIsDisabled(true);
-    mutate({ title, description, eventDate, price, location, media });
+    const embedLink = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBHw731j9k0nc6JYykkcNqPl3Layy5IGsY&q=${encodeURIComponent(
+      location
+    )}`;
+    mutate({
+      title,
+      description,
+      eventDate,
+      price,
+      location,
+      media,
+      embedLink,
+    });
   };
 
   return (
     <form onSubmit={submitPost} className="bg-white p-6 rounded-md">
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHw731j9k0nc6JYykkcNqPl3Layy5IGsY&libraries=places"
+        defer
+      ></script>
       <div className="flex flex-col">
         <div className="flex font-bold justify-end">
           <p className="mx-1 text-red-600">* </p>
@@ -121,6 +155,7 @@ export default function CreatePost() {
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
+          ref={locationInputRef}
         />
       </div>
       <div className="flex flex-col my-4">

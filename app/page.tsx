@@ -35,6 +35,7 @@ export default function Home() {
           price={post.price}
           location={post.location}
           media={post.media}
+          embedLink={post.embedLink}
           id={post.id}
         />
       ))}

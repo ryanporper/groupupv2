@@ -52,6 +52,7 @@ export default function PostDetail(url: URL) {
         price={data.price}
         location={data.location}
         media={data.media}
+        embedLink={data.embedLink}
         comments={data.comments}
       />
       <AddComment id={data?.id} />

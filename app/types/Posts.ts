@@ -5,6 +5,7 @@ export type PostType = {
     price: string;
     location: string;
     media: string;
+    embedLink: string;
     id: string;
     createdAt: string;
     user: {

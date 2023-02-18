@@ -6,6 +6,7 @@ export type PostType = {
     price: string
     location: string
     media: string
+    embedLink: string
     updatedAt?: string
     user: {
       email: string

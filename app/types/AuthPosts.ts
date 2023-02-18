@@ -12,6 +12,7 @@ export type AuthPosts = {
       price: string
       location: string
       media: string
+      embedLink: string
       comments?: {
         createdAt: string
         id: string

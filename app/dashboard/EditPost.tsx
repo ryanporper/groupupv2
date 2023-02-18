@@ -18,6 +18,7 @@ type EditProps = {
   price: string;
   location: string;
   media: string;
+  embedLink: string;
   comments?: {
     id: string;
     postId: string;
@@ -34,6 +35,7 @@ export default function EditPost({
   price,
   location,
   media,
+  embedLink,
   comments,
   id,
 }: EditProps) {
@@ -90,7 +92,17 @@ export default function EditPost({
           )}
         </div>
         <p className="mt-1 mb-4">{description}</p>
-        {location && <p className="my-1">{location}</p>}
+        {location && (
+          <iframe
+            title={location}
+            src={embedLink}
+            width="100%"
+            height="600"
+            allowFullScreen
+            loading="lazy"
+            className="rounded-lg"
+          ></iframe>
+        )}
         {media && (
           <div className="flex justify-center">
             <img src={media} alt="media" className="rounded-lg" />

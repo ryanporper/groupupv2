@@ -12,6 +12,7 @@ type PostProps = {
   price: string;
   location: string;
   media: string;
+  embedLink: string;
   id: string;
   comments?: {
     id: string;
@@ -29,6 +30,7 @@ export default function Post({
   price,
   location,
   media,
+  embedLink,
   id,
   comments,
 }: PostProps) {
@@ -59,7 +61,17 @@ export default function Post({
           )}
         </div>
         <p className="mt-1 mb-4">{description}</p>
-        {location && <p className="my-1">{location}</p>}
+        {location && (
+          <iframe
+            title={location}
+            src={embedLink}
+            width="100%"
+            height="600"
+            allowFullScreen
+            loading="lazy"
+            className="rounded-lg"
+          ></iframe>
+        )}
         {media && (
           <div className="flex justify-center">
             <img src={media} alt="media" className="rounded-lg" />
