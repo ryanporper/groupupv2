@@ -30,6 +30,10 @@ model Post {
   updatedAt   DateTime  @updatedAt
   title       String
   description String
+  eventDate   String
+  price       String?
+  location    String?
+  media       String?
   published   Boolean   @default(false)
   userId      String
   user        User      @relation(fields: [userId], references: [id])

@@ -8,6 +8,10 @@ type PostProps = {
   name: string;
   postTitle: string;
   description: string;
+  eventDate: string;
+  price: string;
+  location: string;
+  media: string;
   id: string;
   comments?: {
     id: string;
@@ -21,6 +25,10 @@ export default function Post({
   name,
   postTitle,
   description,
+  eventDate,
+  price,
+  location,
+  media,
   id,
   comments,
 }: PostProps) {
@@ -41,6 +49,18 @@ export default function Post({
       </div>
       <div className="my-8">
         <p className="break-all">{description}</p>
+      </div>
+      <div className="my-8">
+        <p className="break-all">{eventDate}</p>
+      </div>
+      <div className="my-8">
+        <p className="break-all">${price}</p>
+      </div>
+      <div className="my-8">
+        <p className="break-all">{location}</p>
+      </div>
+      <div className="my-8">
+        <p className="break-all">{media}</p>
       </div>
       <div className="flex gap-4 cursor-pointer items-center">
         <Link href={`/post/${id}`}>

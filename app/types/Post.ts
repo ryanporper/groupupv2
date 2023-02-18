@@ -2,6 +2,10 @@ export type PostType = {
     id: string
     title: string
     description: string
+    eventDate: string
+    price: string
+    location: string
+    media: string
     updatedAt?: string
     user: {
       email: string

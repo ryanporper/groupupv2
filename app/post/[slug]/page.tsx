@@ -16,6 +16,10 @@ interface Comment {
   id: number;
   title: string;
   description: string;
+  eventDate: string;
+  price: string;
+  location: string;
+  media: string;
   user: {
     name: string;
     image: string;
@@ -44,6 +48,10 @@ export default function PostDetail(url: URL) {
         avatar={data.user.image}
         postTitle={data.title}
         description={data.description}
+        eventDate={data.eventDate}
+        price={data.price}
+        location={data.location}
+        media={data.media}
         comments={data.comments}
       />
       <AddComment id={data?.id} />

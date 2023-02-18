@@ -26,6 +26,10 @@ export default function UserPosts() {
           name={data.name}
           title={post.title}
           description={post.description}
+          eventDate={post.eventDate}
+          price={post.price}
+          location={post.location}
+          media={post.media}
           comments={post.comments}
         />
       ))}

@@ -31,6 +31,10 @@ export default function Home() {
           avatar={post.user.image}
           postTitle={post.title}
           description={post.description}
+          eventDate={post.eventDate}
+          price={post.price}
+          location={post.location}
+          media={post.media}
           id={post.id}
         />
       ))}
