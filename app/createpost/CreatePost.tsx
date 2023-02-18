@@ -71,9 +71,16 @@ export default function CreatePost() {
   };
 
   return (
-    <form onSubmit={submitPost} className="bg-white my-8 p-8 rounded-md">
-      <div className="flex flex-col my-4">
-        <label>Title</label>
+    <form onSubmit={submitPost} className="bg-white p-6 rounded-md">
+      <div className="flex flex-col">
+        <div className="flex font-bold justify-end">
+          <p className="mx-1 text-red-600">* </p>
+          <p> Indicates required field</p>
+        </div>
+        <div className="flex font-bold">
+          <label>Title</label>
+          <p className="mx-1 text-red-600">*</p>
+        </div>
         <input
           className={`rounded-md p-1 my-1 ${
             title.length > 100 ? "bg-red-300" : "bg-gray-200"
@@ -81,20 +88,25 @@ export default function CreatePost() {
           placeholder="Title"
           type="text"
           value={title}
+          required
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
       <div className="flex flex-col my-4">
-        <label>Date</label>
+        <div className="flex font-bold">
+          <label>Date</label>
+          <p className="mx-1 text-red-600">*</p>
+        </div>
         <input
           className="bg-gray-200 rounded-md p-1 my-1"
           type="date"
           value={eventDate}
+          required
           onChange={(e) => setEventDate(e.target.value)}
         />
       </div>
       <div className="flex flex-col my-4">
-        <label>Price</label>
+        <label className="font-bold">Price</label>
         <input
           className="bg-gray-200 rounded-md p-1 my-1"
           type="number"
@@ -103,7 +115,7 @@ export default function CreatePost() {
         />
       </div>
       <div className="flex flex-col my-4">
-        <label>Location</label>
+        <label className="font-bold">Location</label>
         <input
           className="bg-gray-200 rounded-md p-1 my-1"
           type="text"
@@ -112,7 +124,13 @@ export default function CreatePost() {
         />
       </div>
       <div className="flex flex-col my-4">
-        <label>Media</label>
+        <div className="flex font-bold">
+          <label className="font-bold">Meida</label>
+          <p className="mx-1 text-red-600">
+            (Link must end in .jpg, .png, .gif, etc | Ex.
+            https://i.imgur.com/xxxxxx.png)
+          </p>
+        </div>
         <input
           className="bg-gray-200 rounded-md p-1 my-1"
           type="text"
@@ -121,6 +139,10 @@ export default function CreatePost() {
         />
       </div>
       <div className="flex flex-col my-4">
+        <div className="flex font-bold">
+          <label>Description</label>
+          <p className="mx-1 text-red-600">*</p>
+        </div>
         <textarea
           className={`p-4 text-lg rounded-md my-t ${
             description.length > 300 ? "bg-red-300" : "bg-gray-200"
@@ -128,6 +150,7 @@ export default function CreatePost() {
           name="description"
           placeholder="Describe your post"
           value={description}
+          required
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
       </div>

@@ -34,35 +34,46 @@ export default function Post({
 }: PostProps) {
   return (
     <div className="bg-white my-8 p-8 rounded-lg">
-      <div className="flex items-center gap-2">
-        <Image
-          className="rounded-full"
-          width={32}
-          height={32}
-          src={avatar}
-          alt="avatar"
-        />
-        <h3 className="font-bold text-gray-700">{name}</h3>
+      <div className="flex justify-between">
+        <div className="flex items-center gap-2">
+          <Image
+            className="rounded-full"
+            width={32}
+            height={32}
+            src={avatar}
+            alt="avatar"
+          />
+          <h3 className="font-bold text-gray-700">{name}</h3>
+        </div>
+        <div className="flex">
+          <h3 className="font-bold text-gray-700">{eventDate}</h3>
+        </div>
       </div>
-      <div className="my-8">
-        <p className="break-all">{postTitle}</p>
+      <div>
+        <div className="flex justify-between text-center">
+          <h1 className="my-3 font-bold text-2xl">{postTitle}</h1>
+          {price && (
+            <p className="my-3 font-bold text-center text-emerald-600">
+              ${price}
+            </p>
+          )}
+        </div>
+
+        <p className="mt-1 mb-4">{description}</p>
+
+        {location && <p className="my-1">{location}</p>}
+
+        {media && (
+          <img
+            src={media}
+            alt="media"
+            className="rounded-lg"
+            width="100%"
+            height="500"
+          />
+        )}
       </div>
-      <div className="my-8">
-        <p className="break-all">{description}</p>
-      </div>
-      <div className="my-8">
-        <p className="break-all">{eventDate}</p>
-      </div>
-      <div className="my-8">
-        <p className="break-all">${price}</p>
-      </div>
-      <div className="my-8">
-        <p className="break-all">{location}</p>
-      </div>
-      <div className="my-8">
-        <p className="break-all">{media}</p>
-      </div>
-      <div className="flex gap-4 cursor-pointer items-center">
+      <div className="flex gap-4 mt-2 cursor-pointer items-center">
         <Link href={`/post/${id}`}>
           <p className="text-sm font-bold text-gray-700">
             {comments?.length} Comments

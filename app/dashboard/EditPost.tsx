@@ -6,6 +6,7 @@ import Toggle from "./Toggle";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 type EditProps = {
   id: string;
@@ -63,8 +64,8 @@ export default function EditPost({
   };
 
   return (
-    <>
-      <div className="bg-white my-8 p-8 rounded-lg">
+    <div className="bg-white my-8 p-8 rounded-lg">
+      <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <Image
             className="rounded-full"
@@ -75,25 +76,36 @@ export default function EditPost({
           />
           <h3 className="font-bold text-gray-700">{name}</h3>
         </div>
-        <div className="my-8">
-          <p className="break-all text-gray-700 text-lg">{title}</p>
+        <div className="flex">
+          <h3 className="font-bold text-gray-700">{eventDate}</h3>
         </div>
-        <div className="my-8">
-          <p className="break-all text-gray-700 text-lg">{description}</p>
+      </div>
+      <div>
+        <div className="flex justify-between text-center">
+          <h1 className="my-3 font-bold text-2xl">{title}</h1>
+          {price && (
+            <p className="my-3 font-bold text-center text-emerald-600">
+              ${price}
+            </p>
+          )}
         </div>
-        <div className="my-8">
-          <p className="break-all text-gray-700 text-lg">{eventDate}</p>
-        </div>
-        <div className="my-8">
-          <p className="break-all text-gray-700 text-lg">${price}</p>
-        </div>
-        <div className="my-8">
-          <p className="break-all text-gray-700 text-lg">{location}</p>
-        </div>
-        <div className="my-8">
-          <p className="break-all text-gray-700 text-lg">{media}</p>
-        </div>
-        <div className="flex items-center gap-4 cursor-pointer">
+
+        <p className="mt-1 mb-4">{description}</p>
+
+        {location && <p className="my-1">{location}</p>}
+
+        {media && (
+          <img
+            src={media}
+            alt="media"
+            className="rounded-lg"
+            width="100%"
+            height="500"
+          />
+        )}
+      </div>
+      <div className="flex gap-4 mt-2 cursor-pointer items-center">
+        <Link href={`/post/${id}`}>
           <p className="text-sm font-bold text-gray-700">
             {comments?.length} Comments
           </p>
@@ -103,9 +115,9 @@ export default function EditPost({
           >
             Delete Post
           </button>
-        </div>
+        </Link>
       </div>
       {toggle && <Toggle deletePost={deletePost} setToggle={setToggle} />}
-    </>
+    </div>
   );
 }
