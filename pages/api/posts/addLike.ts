@@ -13,31 +13,34 @@ export default async function handler(
       return res.status(401).json({ message: "Please login to like." });
     }
     const userId = await prisma.user.findUnique({
-      where: { email: session?.user?.email as string },
+      where: { email: session.user?.email as string },
     });
+
+    const like = await prisma.like.findFirst({
+      where: {
+        postId: req.body.postId,
+        userId: userId?.id,
+      },
+    })
     try {
-      const { postId } = req.body;
-      if (!postId) {
-        return res.status(400).json({ message: "Please provide a post ID." });
-      }
-      const existingLike = await prisma.like.findUnique({
-        where: { id: `${postId}_${userId?.id}` }
-      });
-      if (existingLike) {
-        await prisma.like.delete({ where: { id: existingLike.id } });
-        return res.status(200).json({ message: "Like removed." });
-      } else {
+      if (!like) {
         const result = await prisma.like.create({
           data: {
-            postId,
+            postId: req.body.postId,
             userId: userId?.id as string,
           },
-        });
-        return res.status(200).json(result);
+        })
+        res.status(201).json(result)
+      } else {
+        const result = await prisma.like.delete({
+          where: {
+            id: like.id,
+          },
+        })
+        res.status(200).json(result)
       }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Something went wrong." });
+    } catch (err) {
+      res.status(403).json({ err: "Error has occured while liking a post" })
     }
   }
 }
