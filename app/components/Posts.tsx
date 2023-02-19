@@ -48,10 +48,6 @@ export default function Post({
   comments,
   likes,
 }: PostProps) {
-  const [isLiked, setIsLiked] = useState(
-    !!likes?.find((like) => like.userId === "currentUserId")
-  );
-
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
     async (data: Like) => {
@@ -62,9 +58,7 @@ export default function Post({
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["detail-post"]);
-        setIsLiked(true);
-        toast.success("You liked the post!");
+        queryClient.invalidateQueries(["posts"]);
       },
       onError: (error) => {
         console.log(error);
@@ -76,9 +70,7 @@ export default function Post({
   );
 
   const handleLike = () => {
-    if (!isLiked) {
-      mutate({ postId: id });
-    }
+    mutate({ postId: id });
   };
 
   return (
@@ -127,7 +119,7 @@ export default function Post({
       )}
       <div className="flex gap-4 mt-2 items-center">
         <p className="cursor-pointer" onClick={handleLike}>
-          {isLiked ? `Liked ❤️ ${likes?.length}` : `Like ${likes?.length}`}
+          {`❤️ ${likes?.length}`}
         </p>
         <Link href={`/post/${id}`}>
           <p className="text-sm font-bold text-gray-700 cursor-pointer">
