@@ -14,6 +14,17 @@ export type PostType = {
       image: string
       name: string
     }
+    likes: {
+      id: string
+      postId: string
+      userId: string
+      user: {
+        email: string
+        id: string
+        image: string
+        name: string
+      }
+    }[]
     comments: {
       createdAt?: string
       id: string

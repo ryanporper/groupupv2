@@ -19,6 +19,11 @@ type EditProps = {
   location: string;
   media: string;
   embedLink: string;
+  likes?: {
+    id: string;
+    postId: string;
+    userId: string;
+  }[];
   comments?: {
     id: string;
     postId: string;
@@ -37,6 +42,7 @@ export default function EditPost({
   media,
   embedLink,
   comments,
+  likes,
   id,
 }: EditProps) {
   // Toggle
@@ -110,6 +116,7 @@ export default function EditPost({
         )}
       </div>
       <div className="flex gap-4 mt-2 cursor-pointer items-center">
+        <p>Likes {likes?.length}</p>
         <Link href={`/post/${id}`}>
           <p className="text-sm font-bold text-gray-700">
             {comments?.length} Comments

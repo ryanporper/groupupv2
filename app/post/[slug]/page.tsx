@@ -54,6 +54,7 @@ export default function PostDetail(url: URL) {
         media={data.media}
         embedLink={data.embedLink}
         comments={data.comments}
+        likes={data.likes}
       />
       <AddComment id={data?.id} />
       {data?.comments?.map((comment: Comment) => (

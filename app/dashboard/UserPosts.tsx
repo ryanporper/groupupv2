@@ -32,6 +32,7 @@ export default function UserPosts() {
           media={post.media}
           embedLink={post.embedLink}
           comments={post.comments}
+          likes={post.likes}
         />
       ))}
     </div>

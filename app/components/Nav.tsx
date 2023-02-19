@@ -11,7 +11,7 @@ export default async function Nav() {
   return (
     <nav className="flex justify-between items-center py-8">
       <Link href={"/"}>
-        <h1 className="font-bold text-xl">GroupUp</h1>
+        <h1 className="font-bold text-3xl">GroupUp</h1>
       </Link>
       {/* client componenet */}
       <ul className="flex items-center gap-6">

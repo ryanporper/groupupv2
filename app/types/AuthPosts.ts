@@ -13,6 +13,11 @@ export type AuthPosts = {
       location: string
       media: string
       embedLink: string
+      likes?: {
+        id: string
+        postId: string
+        userId: string
+      }[]
       comments?: {
         createdAt: string
         id: string

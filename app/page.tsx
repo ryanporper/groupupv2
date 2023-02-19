@@ -26,6 +26,7 @@ export default function Home() {
       {data?.map((post) => (
         <Posts
           comments={post.comments}
+          likes={post.likes}
           key={post.id}
           name={post.user.name}
           avatar={post.user.image}
