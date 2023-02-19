@@ -26,10 +26,14 @@ export default function CreatePost() {
       const autocomplete = new google.maps.places.Autocomplete(
         locationInputRef.current
       );
-      autocomplete.addListener("place_changed", () => {
-        //@ts-ignore
-        setLocation(locationInputRef.current.value);
-      });
+      autocomplete.addListener(
+        "place_changed",
+        () => {
+          //@ts-ignore
+          setLocation(locationInputRef.current.value);
+        },
+        { passive: true }
+      );
     }
   }, []);
 
@@ -86,9 +90,9 @@ export default function CreatePost() {
     e.preventDefault();
     toastPostId = toast.loading("Creating post...", { id: toastPostId });
     setIsDisabled(true);
-    const embedLink = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBHw731j9k0nc6JYykkcNqPl3Layy5IGsY&q=${encodeURIComponent(
-      location
-    )}`;
+    const embedLink = `https://www.google.com/maps/embed/v1/place?key=${
+      process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+    }&q=${encodeURIComponent(location)}`;
     mutate({
       title,
       description,
@@ -101,118 +105,119 @@ export default function CreatePost() {
   };
 
   return (
-    <form onSubmit={submitPost} className="bg-white p-6 rounded-md">
-      <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHw731j9k0nc6JYykkcNqPl3Layy5IGsY&libraries=places"
-        defer
-      ></script>
-      <div className="flex flex-col">
-        <div className="flex font-bold justify-end">
-          <p className="mx-1 text-red-600">* </p>
-          <p> Indicates required field</p>
-        </div>
-        <div className="flex font-bold">
-          <label>Title</label>
-          <p className="mx-1 text-red-600">*</p>
-        </div>
-        <input
-          className={`rounded-md p-1 my-1 ${
-            title.length > 100 ? "bg-red-300" : "bg-gray-200"
-          }`}
-          placeholder="Title"
-          type="text"
-          value={title}
-          required
-          onChange={(e) => setTitle(e.target.value)}
+    <>
+      <form onSubmit={submitPost} className="bg-white p-6 rounded-md">
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
         />
-      </div>
-      <div className="flex flex-col my-4">
-        <div className="flex font-bold">
-          <label>Date</label>
-          <p className="mx-1 text-red-600">*</p>
+        <div className="flex flex-col">
+          <div className="flex font-bold justify-end">
+            <p className="mx-1 text-red-600">* </p>
+            <p> Indicates required field</p>
+          </div>
+          <div className="flex font-bold">
+            <label>Title</label>
+            <p className="mx-1 text-red-600">*</p>
+          </div>
+          <input
+            className={`rounded-md p-1 my-1 ${
+              title.length > 100 ? "bg-red-300" : "bg-gray-200"
+            }`}
+            placeholder="Title"
+            type="text"
+            value={title}
+            required
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
-        <input
-          className="bg-gray-200 rounded-md p-1 my-1"
-          type="date"
-          value={eventDate}
-          required
-          onChange={(e) => setEventDate(e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col my-4">
-        <label className="font-bold">Price</label>
-        <input
-          className="bg-gray-200 rounded-md p-1 my-1"
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col my-4">
-        <label className="font-bold">Location</label>
-        <input
-          className="bg-gray-200 rounded-md p-1 my-1"
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          ref={locationInputRef}
-        />
-      </div>
-      <div className="flex flex-col my-4">
-        <div className="flex font-bold">
-          <label className="font-bold">Meida</label>
-          <p className="mx-1 text-red-600">
-            (Link must end in .jpg, .png, .gif, etc | Ex.
-            https://i.imgur.com/xxxxxx.png)
-          </p>
+        <div className="flex flex-col my-4">
+          <div className="flex font-bold">
+            <label>Date</label>
+            <p className="mx-1 text-red-600">*</p>
+          </div>
+          <input
+            className="bg-gray-200 rounded-md p-1 my-1"
+            type="date"
+            value={eventDate}
+            required
+            onChange={(e) => setEventDate(e.target.value)}
+          />
         </div>
-        <input
-          className="bg-gray-200 rounded-md p-1 my-1"
-          type="text"
-          value={media}
-          onChange={(e) => setMedia(e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col my-4">
-        <div className="flex font-bold">
-          <label>Description</label>
-          <p className="mx-1 text-red-600">*</p>
+        <div className="flex flex-col my-4">
+          <label className="font-bold">Price</label>
+          <input
+            className="bg-gray-200 rounded-md p-1 my-1"
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </div>
-        <textarea
-          className={`p-4 text-lg rounded-md my-t ${
-            description.length > 300 ? "bg-red-300" : "bg-gray-200"
-          }`}
-          name="description"
-          placeholder="Describe your post"
-          value={description}
-          required
-          onChange={(e) => setDescription(e.target.value)}
-        ></textarea>
-      </div>
-      <div className="flex items-center justify-between gap-2">
-        <p
-          className={`font-bold text-sm ${
-            description.length > 300 ? "text-red-700" : "text-gray-700"
-          }`}
-        >{`${description.length}/300`}</p>
-        <div>
-          <Link href="/">
+        <div className="flex flex-col my-4">
+          <label className="font-bold">Location</label>
+          <input
+            className="bg-gray-200 rounded-md p-1 my-1"
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            ref={locationInputRef}
+          />
+        </div>
+        <div className="flex flex-col my-4">
+          <div className="flex font-bold">
+            <label className="font-bold">Meida</label>
+            <p className="mx-1 text-red-600">
+              (Link must end in .jpg, .png, .gif, etc | Ex.
+              https://i.imgur.com/xxxxxx.png)
+            </p>
+          </div>
+          <input
+            className="bg-gray-200 rounded-md p-1 my-1"
+            type="text"
+            value={media}
+            onChange={(e) => setMedia(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col my-4">
+          <div className="flex font-bold">
+            <label>Description</label>
+            <p className="mx-1 text-red-600">*</p>
+          </div>
+          <textarea
+            className={`p-4 text-lg rounded-md my-t ${
+              description.length > 300 ? "bg-red-300" : "bg-gray-200"
+            }`}
+            name="description"
+            placeholder="Describe your post"
+            value={description}
+            required
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+        </div>
+        <div className="flex items-center justify-between gap-2">
+          <p
+            className={`font-bold text-sm ${
+              description.length > 300 ? "text-red-700" : "text-gray-700"
+            }`}
+          >{`${description.length}/300`}</p>
+          <div>
+            <Link href="/">
+              <button
+                className="text-sm bg-gray-600 text-white p-2 mx-2 rounded-xl disabled:opacity-25"
+                type="submit"
+              >
+                Cancel
+              </button>
+            </Link>
             <button
-              className="text-sm bg-gray-600 text-white p-2 mx-2 rounded-xl disabled:opacity-25"
+              className="text-sm bg-teal-600 text-white p-2 rounded-xl disabled:opacity-25"
+              disabled={isDisabled}
               type="submit"
             >
-              Cancel
+              Create post
             </button>
-          </Link>
-          <button
-            className="text-sm bg-teal-600 text-white p-2 rounded-xl disabled:opacity-25"
-            disabled={isDisabled}
-            type="submit"
-          >
-            Create post
-          </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
