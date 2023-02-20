@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 type Like = {
   postId?: string;
+  userId?: string;
 };
 
 type PostProps = {
@@ -48,6 +49,8 @@ export default function Post({
   comments,
   likes,
 }: PostProps) {
+  const [liked, setLiked] = useState(likes?.some((like) => like.postId === id));
+  const [searchQuery, setSearchQuery] = useState("");
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
     async (data: Like) => {
@@ -57,7 +60,7 @@ export default function Post({
       });
     },
     {
-      onSuccess: () => {
+      onSuccess: async () => {
         queryClient.invalidateQueries(["posts"]);
       },
       onError: (error) => {
@@ -71,10 +74,11 @@ export default function Post({
 
   const handleLike = () => {
     mutate({ postId: id });
+    setLiked(!liked);
   };
 
   return (
-    <div className="bg-white my-8 p-4 rounded-lg">
+    <div className="bg-white my-8 p-4 rounded-lg border-4 hover:border-blue-300 hover:border-opacity-30">
       <div className="bg-slate-100 p-3 rounded-lg">
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
@@ -100,7 +104,7 @@ export default function Post({
       </div>
       <p className="my-3 px-2">{description}</p>
       {location && (
-        <div className="border-slate-200 border-4 rounded-xl">
+        <div className="border-slate-200 border-4 border-opacity-30 rounded-xl">
           <iframe
             title={location}
             src={embedLink}
@@ -119,7 +123,7 @@ export default function Post({
       )}
       <div className="flex gap-4 mt-2 items-center">
         <p className="cursor-pointer" onClick={handleLike}>
-          {`❤️ ${likes?.length}`}
+          {liked ? "❤️" : "🤍"} {likes?.length}
         </p>
         <Link href={`/post/${id}`}>
           <p className="text-sm font-bold text-gray-700 cursor-pointer">

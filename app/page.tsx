@@ -1,10 +1,10 @@
 "use client";
 
 import axios from "axios";
-import CreatePost from "./createpost/CreatePost";
 import { useQuery } from "@tanstack/react-query";
 import Posts from "./components/Posts";
 import { PostType } from "./types/Posts";
+import { useState } from "react";
 
 // get all posts
 const getAllPosts = async () => {
@@ -20,10 +20,27 @@ export default function Home() {
   if (error) return error;
   if (isLoading) return "Loading...";
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredData = data?.filter((post) =>
+    post.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <main>
-      {/* <CreatePost /> */}
-      {data?.map((post) => (
+      <div className="flex flex-col justify-center text-center items-center">
+        <label className="p-1 font-bold text-lg ">
+          Search posts by title name
+        </label>
+        <input
+          className="rounded-lg p-1 border-2 hover:border-blue-300 outline-none w-8/12 -mb-5"
+          type="text"
+          placeholder="Filter posts by title"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      {filteredData?.map((post) => (
         <Posts
           comments={post.comments}
           likes={post.likes}

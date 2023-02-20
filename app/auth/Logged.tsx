@@ -12,12 +12,12 @@ export default function Logged({ image }: User) {
   return (
     <li className="flex gap-8 items-center">
       <Link href={"/createpost"}>
-        <button className="text-sm bg-emerald-700 text-white py-2 px-6 rounded-md">
+        <button className="text-sm bg-emerald-700 text-white py-2 px-4 rounded-md">
           Create a Post
         </button>
       </Link>
       <button
-        className="text-sm bg-gray-700 text-white py-2 px-6 rounded-md"
+        className="text-sm bg-gray-700 text-white py-2 px-4 rounded-md"
         onClick={() => signOut()}
       >
         Logout
