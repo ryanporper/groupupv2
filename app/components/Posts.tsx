@@ -49,6 +49,8 @@ export default function Post({
   comments,
   likes,
 }: PostProps) {
+  // need to update this to use userId so it only shows liked if the user liked it not just if it is liked in general
+  // like count is accurate though
   const [liked, setLiked] = useState(likes?.some((like) => like.postId === id));
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
