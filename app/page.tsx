@@ -12,19 +12,26 @@ const getAllPosts = async () => {
   return response.data;
 };
 
-export default function Home() {
+function usePostFilter() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const { data, error, isLoading } = useQuery<PostType[]>({
     queryFn: getAllPosts,
     queryKey: ["posts"],
   });
-  if (error) return error;
-  if (isLoading) return "Loading...";
-
-  const [searchTerm, setSearchTerm] = useState("");
-
   const filteredData = data?.filter((post) =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  return { error, isLoading, filteredData, searchTerm, setSearchTerm };
+}
+
+export default function Home() {
+  const { error, isLoading, filteredData, searchTerm, setSearchTerm } =
+    usePostFilter();
+
+  if (error) return error;
+  if (isLoading) return "Loading...";
 
   return (
     <main>
