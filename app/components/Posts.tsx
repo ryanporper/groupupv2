@@ -50,7 +50,6 @@ export default function Post({
   likes,
 }: PostProps) {
   const [liked, setLiked] = useState(likes?.some((like) => like.postId === id));
-  const [searchQuery, setSearchQuery] = useState("");
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
     async (data: Like) => {
