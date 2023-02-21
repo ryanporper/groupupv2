@@ -7,6 +7,16 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import Script from "next/script";
 
+/*
+                TODO
+  * force first letter of tag to upper case
+  * add tags to prisma db and all post files
+  * add removing tags from post
+  * x button on tag click to delete it
+  * clear tags button
+  * drag and drop pictures to post
+*/
+
 export default function CreatePost() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -15,6 +25,8 @@ export default function CreatePost() {
   const [location, setLocation] = useState("");
   const [media, setMedia] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
+  const [tags, setTags] = useState<string>("");
+  const [tagList, setTagList] = useState<string[]>([]);
   const queryClient = useQueryClient();
   const locationInputRef = useRef(null);
   let toastPostId: string;
@@ -47,6 +59,8 @@ export default function CreatePost() {
       location,
       media,
       embedLink,
+      tags,
+      tagList,
     }: {
       title: string;
       description: string;
@@ -55,6 +69,8 @@ export default function CreatePost() {
       location: string;
       media: string;
       embedLink: string;
+      tags: string;
+      tagList: string[];
     }) =>
       await axios.post("/api/posts/createPost", {
         title,
@@ -64,6 +80,8 @@ export default function CreatePost() {
         location,
         media,
         embedLink,
+        tags,
+        tagList,
       }),
     {
       onError: (error) => {
@@ -101,12 +119,43 @@ export default function CreatePost() {
       location,
       media,
       embedLink,
+      tags,
+      tagList,
     });
+  };
+
+  const submitTag = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // setIsDisabled(true);
+    if (tags) setTagList([...tagList, tags]);
+    setTags("");
+  };
+
+  const clearTags = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // setIsDisabled(true);
+    //TODO: add remove tags functionality
+    console.log("This will clear all tags");
   };
 
   return (
     <>
       <form onSubmit={submitPost} className="bg-white p-6 rounded-md">
+        {tagList.length > 0 && (
+          <div className="">
+            <p>Tags:</p>
+            {tagList.map((tagElements) => {
+              return (
+                <div
+                  className=" bg-blue-500 text-white text-sm my-2 p-1 w-1/5 text-center rounded-lg"
+                  key={tagElements}
+                >
+                  {tagElements}
+                </div>
+              );
+            })}
+          </div>
+        )}
         <Script
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
         />
@@ -129,6 +178,36 @@ export default function CreatePost() {
             required
             onChange={(e) => setTitle(e.target.value)}
           />
+        </div>
+        <div className="flex flex-col mt-4">
+          <label className="font-bold">Tags</label>
+          <input
+            className="bg-gray-200 rounded-md p-1 my-1"
+            type="text"
+            placeholder="Outdoors, excercise, beach"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+          <div className="flex mt-1">
+            {/* on click button effects? */}
+            <button
+              className="text-sm bg-teal-600 text-white py-1 rounded-xl disabled:opacity-25 w-20 mr-2"
+              disabled={isDisabled}
+              type="submit"
+              onClick={submitTag}
+            >
+              Add Tag
+            </button>
+            {/* on click button effects? */}
+            <button
+              className="text-sm bg-red-600 text-white py-1 rounded-xl disabled:opacity-25 w-20"
+              disabled={isDisabled}
+              type="submit"
+              onClick={clearTags}
+            >
+              Clear Tags
+            </button>
+          </div>
         </div>
         <div className="flex flex-col my-4">
           <div className="flex font-bold">
