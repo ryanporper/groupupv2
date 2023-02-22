@@ -9,11 +9,11 @@ import Script from "next/script";
 
 /*
                 TODO
-  * force first letter of tag to upper case
-  * add tags to prisma db and all post files
+  ** force first letter of tag to upper case
+  ** add tags to prisma db and all post files
+  ** clear tags button
   * add removing tags from post
   * x button on tag click to delete it
-  * clear tags button
   * drag and drop pictures to post
 */
 
@@ -126,6 +126,7 @@ export default function CreatePost() {
   const submitTag = async (e: React.FormEvent) => {
     e.preventDefault();
     // setIsDisabled(true);
+    if (tags.length < 1) return;
     if (tagList.length < 10) {
       setTagList([...tagList, tags]);
       setTags("");
@@ -139,9 +140,12 @@ export default function CreatePost() {
 
   const clearTags = async (e: React.FormEvent) => {
     e.preventDefault();
-    // setIsDisabled(true);
     setTagList([]);
   };
+
+  function removeTag(idx: number) {
+    setTagList((prevTagList) => prevTagList.filter((_, i) => i !== idx));
+  }
 
   const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -153,13 +157,20 @@ export default function CreatePost() {
         {tagList.length > 0 && (
           <div className="flex flex-wrap max-w-full gap-2 mb-2 items-center">
             <p>Tags:</p>
-            {tagList?.map((tagElements) => {
+            {tagList?.map((tag, index) => {
               return (
                 <div
-                  className=" bg-blue-500 text-white text-sm p-2 text-center rounded-lg cursor-default"
-                  key={tagElements}
+                  className="relative bg-blue-500 text-white text-sm p-2 text-center rounded-lg cursor-default"
+                  key={tag}
                 >
-                  {capitalizeFirstLetter(tagElements)}
+                  {capitalizeFirstLetter(tag)}
+                  <button
+                    type="button"
+                    className="absolute -top-1 right-0 px-1 text-xs text-white hover:text-red-500"
+                    onClick={() => removeTag(index)}
+                  >
+                    x
+                  </button>
                 </div>
               );
             })}
@@ -178,7 +189,7 @@ export default function CreatePost() {
             <p className="mx-1 text-red-600">*</p>
           </div>
           <input
-            className={`rounded-md p-1 my-1 ${
+            className={`rounded-md p-1 my-1 border-2 hover:border-blue-300 outline-none ${
               title.length > 100 ? "bg-red-300" : "bg-gray-200"
             }`}
             placeholder="Title"
@@ -191,7 +202,7 @@ export default function CreatePost() {
         <div className="flex flex-col mt-4">
           <label className="font-bold">Tags</label>
           <input
-            className="bg-gray-200 rounded-md p-1 my-1"
+            className="bg-gray-200 border-2 hover:border-blue-300 outline-none rounded-md p-1 my-1"
             type="text"
             placeholder="Outdoors, exercise, beach"
             value={tags}
@@ -224,7 +235,7 @@ export default function CreatePost() {
             <p className="mx-1 text-red-600">*</p>
           </div>
           <input
-            className="bg-gray-200 rounded-md p-1 my-1"
+            className="bg-gray-200 border-2 hover:border-blue-300 outline-none rounded-md p-1 my-1"
             type="date"
             value={eventDate}
             required
@@ -234,7 +245,7 @@ export default function CreatePost() {
         <div className="flex flex-col my-4">
           <label className="font-bold">Price</label>
           <input
-            className="bg-gray-200 rounded-md p-1 my-1"
+            className="bg-gray-200 border-2 hover:border-blue-300 outline-none rounded-md p-1 my-1"
             type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -243,7 +254,7 @@ export default function CreatePost() {
         <div className="flex flex-col my-4">
           <label className="font-bold">Location</label>
           <input
-            className="bg-gray-200 rounded-md p-1 my-1"
+            className="bg-gray-200 border-2 hover:border-blue-300 outline-none rounded-md p-1 my-1"
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -259,7 +270,7 @@ export default function CreatePost() {
             </p>
           </div>
           <input
-            className="bg-gray-200 rounded-md p-1 my-1"
+            className="bg-gray-200 border-2 hover:border-blue-300 outline-none rounded-md p-1 my-1"
             type="text"
             value={media}
             onChange={(e) => setMedia(e.target.value)}
@@ -271,7 +282,7 @@ export default function CreatePost() {
             <p className="mx-1 text-red-600">*</p>
           </div>
           <textarea
-            className={`p-4 text-lg rounded-md my-t ${
+            className={`p-4 border-2 hover:border-blue-300 outline-none text-lg rounded-md my-t ${
               description.length > 300 ? "bg-red-300" : "bg-gray-200"
             }`}
             name="description"
