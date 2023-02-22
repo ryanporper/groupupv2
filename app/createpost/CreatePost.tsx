@@ -12,8 +12,8 @@ import Script from "next/script";
   ** force first letter of tag to upper case
   ** add tags to prisma db and all post files
   ** clear tags button
-  * add removing tags from post
-  * x button on tag click to delete it
+  ** add removing tags from post
+  ** x button on tag click to delete it
   * drag and drop pictures to post
 */
 
