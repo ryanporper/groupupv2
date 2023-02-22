@@ -19,9 +19,34 @@ function usePostFilter() {
     queryFn: getAllPosts,
     queryKey: ["posts"],
   });
-  const filteredData = data?.filter((post) =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = data?.filter((post) => {
+    const titleMatch = post.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const priceMatch = post.price
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const dateMatch = post.eventDate
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const locationMatch = post.location
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const descriptionMatch = post.description
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const tagMatch = post.tagList.some((tag) =>
+      tag.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return (
+      titleMatch ||
+      tagMatch ||
+      priceMatch ||
+      dateMatch ||
+      locationMatch ||
+      descriptionMatch
+    );
+  });
 
   return { error, isLoading, filteredData, searchTerm, setSearchTerm };
 }
@@ -36,13 +61,11 @@ export default function Home() {
   return (
     <main>
       <div className="flex flex-col justify-center text-center items-center">
-        <label className="p-1 font-bold text-lg ">
-          Search posts by title name
-        </label>
+        <label className="p-1 font-bold text-2xl ">Search posts</label>
         <input
           className="rounded-lg p-1 border-2 hover:border-blue-300 outline-none w-8/12 -mb-5"
           type="text"
-          placeholder="Filter posts by title"
+          placeholder="Filter posts by title, tags, date, etc."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
