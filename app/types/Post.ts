@@ -8,12 +8,14 @@ export type PostType = {
     media: string
     embedLink: string
     updatedAt?: string
+    tagList: string[]
     user: {
       email: string
       id: string
       image: string
       name: string
     }
+    
     likes: {
       id: string
       postId: string

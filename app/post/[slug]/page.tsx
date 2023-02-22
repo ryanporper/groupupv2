@@ -55,6 +55,7 @@ export default function PostDetail(url: URL) {
         embedLink={data.embedLink}
         comments={data.comments}
         likes={data.likes}
+        tagList={data.tagList}
       />
       <AddComment id={data?.id} />
       {data?.comments?.map((comment: Comment) => (

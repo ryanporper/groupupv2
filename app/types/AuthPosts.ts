@@ -13,6 +13,7 @@ export type AuthPosts = {
       location: string
       media: string
       embedLink: string
+      tagList: string[]
       likes?: {
         id: string
         postId: string

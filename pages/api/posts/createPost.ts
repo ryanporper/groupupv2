@@ -16,7 +16,7 @@ export default async function handler(
         .json({ message: "Please login to create a post." });
     }
     // const title: string = req.body.title;
-    const { title, description, eventDate, price, location, media, embedLink } = req.body;    
+    const { title, description, eventDate, price, location, media, embedLink, tagList } = req.body;    
     // get user
     const prismaUser = await prisma.user.findUnique({
       where: { email: session?.user?.email ?? undefined },
@@ -38,12 +38,13 @@ export default async function handler(
         data: {
           title,
           description,
-          //@ts-ignore
           eventDate,
           price,
           location,
           media,
           embedLink,
+          //@ts-ignore
+          tagList,
           userId: prismaUser?.id as string,
         },
       });

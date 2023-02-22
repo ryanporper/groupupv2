@@ -59,7 +59,6 @@ export default function CreatePost() {
       location,
       media,
       embedLink,
-      tags,
       tagList,
     }: {
       title: string;
@@ -80,7 +79,6 @@ export default function CreatePost() {
         location,
         media,
         embedLink,
-        tags,
         tagList,
       }),
     {
@@ -99,6 +97,7 @@ export default function CreatePost() {
         setPrice("");
         setLocation("");
         setMedia("");
+        setTagList([]);
         setIsDisabled(false);
       },
     }
@@ -127,30 +126,40 @@ export default function CreatePost() {
   const submitTag = async (e: React.FormEvent) => {
     e.preventDefault();
     // setIsDisabled(true);
-    if (tags) setTagList([...tagList, tags]);
-    setTags("");
+    if (tagList.length < 10) {
+      setTagList([...tagList, tags]);
+      setTags("");
+    } else {
+      toast.error(
+        "You can only have 10 tags at a time. Please remove some tags.",
+        { id: toastPostId }
+      );
+    }
   };
 
   const clearTags = async (e: React.FormEvent) => {
     e.preventDefault();
     // setIsDisabled(true);
-    //TODO: add remove tags functionality
-    console.log("This will clear all tags");
+    setTagList([]);
+  };
+
+  const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   return (
     <>
       <form onSubmit={submitPost} className="bg-white p-6 rounded-md">
         {tagList.length > 0 && (
-          <div className="">
+          <div className="flex flex-wrap max-w-full gap-2 mb-2 items-center">
             <p>Tags:</p>
-            {tagList.map((tagElements) => {
+            {tagList?.map((tagElements) => {
               return (
                 <div
-                  className=" bg-blue-500 text-white text-sm my-2 p-1 w-1/5 text-center rounded-lg"
+                  className=" bg-blue-500 text-white text-sm p-2 text-center rounded-lg cursor-default"
                   key={tagElements}
                 >
-                  {tagElements}
+                  {capitalizeFirstLetter(tagElements)}
                 </div>
               );
             })}
@@ -184,7 +193,7 @@ export default function CreatePost() {
           <input
             className="bg-gray-200 rounded-md p-1 my-1"
             type="text"
-            placeholder="Outdoors, excercise, beach"
+            placeholder="Outdoors, exercise, beach"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
           />

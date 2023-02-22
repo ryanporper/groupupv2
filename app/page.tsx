@@ -51,6 +51,7 @@ export default function Home() {
         <Posts
           comments={post.comments}
           likes={post.likes}
+          tagList={post.tagList}
           key={post.id}
           name={post.user.name}
           avatar={post.user.image}

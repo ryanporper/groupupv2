@@ -23,6 +23,7 @@ type PostProps = {
   media: string;
   embedLink: string;
   id: string;
+  tagList: string[];
   likes?: {
     id: string;
     postId: string;
@@ -48,6 +49,7 @@ export default function Post({
   id,
   comments,
   likes,
+  tagList,
 }: PostProps) {
   // need to update this to use userId so it only shows liked if the user liked it not just if it is liked in general
   // like count is accurate though
@@ -78,8 +80,28 @@ export default function Post({
     setLiked(!liked);
   };
 
+  const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  // add ... button to top of post that will drop down to show edit/delte
   return (
     <div className="bg-white my-8 p-4 rounded-lg border-4 hover:border-blue-300 hover:border-opacity-30">
+      {tagList.length > 0 && (
+        <div className="flex flex-wrap max-w-full gap-2 mb-2 items-center">
+          <p>Tags:</p>
+          {tagList?.map((tagElements) => {
+            return (
+              <div
+                className=" bg-blue-500 text-white text-sm p-2 text-center rounded-lg"
+                key={tagElements}
+              >
+                {capitalizeFirstLetter(tagElements)}
+              </div>
+            );
+          })}
+        </div>
+      )}
       <div className="bg-slate-100 p-3 rounded-lg">
         <div className="flex justify-between">
           <div className="flex items-center gap-2">

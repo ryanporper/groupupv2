@@ -33,6 +33,7 @@ export default function UserPosts() {
           embedLink={post.embedLink}
           comments={post.comments}
           likes={post.likes}
+          tagList={post.tagList}
         />
       ))}
     </div>

@@ -8,6 +8,7 @@ export type PostType = {
     embedLink: string;
     id: string;
     createdAt: string;
+    tagList: string[];
     user: {
         name: string;
         image: string;

@@ -19,6 +19,7 @@ type EditProps = {
   location: string;
   media: string;
   embedLink: string;
+  tagList: string[];
   likes?: {
     id: string;
     postId: string;
@@ -43,6 +44,7 @@ export default function EditPost({
   embedLink,
   comments,
   likes,
+  tagList,
   id,
 }: EditProps) {
   // Toggle
@@ -66,13 +68,32 @@ export default function EditPost({
     }
   );
 
+  const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   const deletePost = () => {
     deleteToastId = toast.loading("Deleting post...", { id: deleteToastId });
     mutate(id);
   };
 
   return (
-    <div className="bg-white my-8 p-8 rounded-lg">
+    <div className="bg-white my-8 p-4 rounded-lg border-4 hover:border-blue-300 hover:border-opacity-30">
+      {tagList.length > 0 && (
+        <div className="flex flex-wrap max-w-full gap-2 mb-2 items-center">
+          <p>Tags:</p>
+          {tagList?.map((tagElements) => {
+            return (
+              <div
+                className=" bg-blue-500 text-white text-sm p-2 text-center rounded-lg"
+                key={tagElements}
+              >
+                {capitalizeFirstLetter(tagElements)}
+              </div>
+            );
+          })}
+        </div>
+      )}
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <Image
