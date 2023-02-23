@@ -299,14 +299,14 @@ export default function CreatePost() {
             }`}
           >{`${description.length}/300`}</p>
           <div>
-            <Link href="/">
+            {/* <Link href="/">
               <button
                 className="text-sm bg-gray-600 text-white p-2 mx-2 rounded-xl disabled:opacity-25"
                 type="submit"
               >
                 Cancel
               </button>
-            </Link>
+            </Link> */}
             <button
               className="text-sm bg-teal-600 text-white p-2 rounded-xl disabled:opacity-25"
               disabled={isDisabled}

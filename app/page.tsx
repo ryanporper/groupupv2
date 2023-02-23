@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import Posts from "./components/Posts";
 import { PostType } from "./types/Posts";
 import { useState } from "react";
+import CreatePost from "./createpost/CreatePost";
 
 // get all posts
 const getAllPosts = async () => {
@@ -52,6 +53,7 @@ function usePostFilter() {
 }
 
 export default function Home() {
+  const [createPost, setCreatePost] = useState(false);
   const { error, isLoading, filteredData, searchTerm, setSearchTerm } =
     usePostFilter();
 
@@ -60,6 +62,26 @@ export default function Home() {
 
   return (
     <main>
+      <div className="flex justify-center">
+        {!createPost && (
+          <button
+            className=" text-sm bg-emerald-700 text-white py-2 px-4 mb-1 rounded-md"
+            onClick={() => setCreatePost(true)}
+          >
+            Create Post
+          </button>
+        )}
+        {createPost && (
+          <button
+            className=" text-sm bg-red-600 text-white py-2 px-4 mb-1 rounded-md"
+            onClick={() => setCreatePost(false)}
+          >
+            Cancel
+          </button>
+        )}
+      </div>
+
+      {createPost && <CreatePost />}
       <div className="flex flex-col justify-center text-center items-center">
         <label className="p-1 font-bold text-2xl ">Search posts</label>
         <input
@@ -86,6 +108,7 @@ export default function Home() {
           media={post.media}
           embedLink={post.embedLink}
           id={post.id}
+          userId={post.userId}
         />
       ))}
     </main>

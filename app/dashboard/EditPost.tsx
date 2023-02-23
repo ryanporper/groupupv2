@@ -49,6 +49,7 @@ export default function EditPost({
 }: EditProps) {
   // Toggle
   const [toggle, setToggle] = useState(false);
+  const [liked, setLiked] = useState(likes?.some((like) => like.postId === id));
   let deleteToastId: string;
   const queryClient = useQueryClient();
   // delete post
@@ -118,7 +119,7 @@ export default function EditPost({
             </p>
           )}
         </div>
-        <p className="mt-1 mb-4">{description}</p>
+        <p className="mt-1 mb-4 font-normal text-base">{description}</p>
         {location && (
           <iframe
             title={location}
@@ -137,7 +138,9 @@ export default function EditPost({
         )}
       </div>
       <div className="flex gap-4 mt-2 cursor-pointer items-center">
-        <p>Likes {likes?.length}</p>
+        <p>
+          {liked ? "❤️" : "🤍"} {likes?.length}
+        </p>
         <Link href={`/post/${id}`}>
           <p className="text-sm font-bold text-gray-700">
             {comments?.length} Comments

@@ -44,6 +44,7 @@ export default function PostDetail(url: URL) {
     <div>
       <Post
         id={data?.id}
+        userId={data.userId}
         name={data.user.name}
         avatar={data.user.image}
         postTitle={data.title}

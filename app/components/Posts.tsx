@@ -23,6 +23,7 @@ type PostProps = {
   media: string;
   embedLink: string;
   id: string;
+  userId?: string;
   tagList: string[];
   likes?: {
     id: string;
@@ -50,16 +51,22 @@ export default function Post({
   comments,
   likes,
   tagList,
+  userId,
 }: PostProps) {
   // need to update this to use userId so it only shows liked if the user liked it not just if it is liked in general
   // like count is accurate though
-  const [liked, setLiked] = useState(likes?.some((like) => like.postId === id));
+  const [liked, setLiked] = useState(
+    likes?.some((like) => like.userId === userId)
+  );
+  console.log("Posted by userId: " + userId);
+  console.log("Likes: ", likes);
+
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
     async (data: Like) => {
       return axios.post("/api/posts/addLike", {
         postId: id,
-        userId: "currentUserId",
+        userId: userId,
       });
     },
     {
@@ -75,9 +82,19 @@ export default function Post({
     }
   );
 
-  const handleLike = () => {
-    mutate({ postId: id });
-    setLiked(!liked);
+  const handleLike = async () => {
+    try {
+      await mutate({ postId: id, userId });
+      setLiked(!liked);
+      console.log("Post ID: ", id, " Post created by User ID: ", userId);
+    } catch (error) {
+      console.log(error);
+      setLiked(false);
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data.message);
+        setLiked(false);
+      }
+    }
   };
 
   const capitalizeFirstLetter = (str: string) => {
