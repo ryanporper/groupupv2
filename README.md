@@ -2,7 +2,7 @@
 
 ## **Work in Progress**
 
-*Updated version of my orginal project (GroupUp)[https://github.com/ryanporper/groupup]*
+*Updated version of my orginal project [GroupUp](https://github.com/ryanporper/groupup)*
 
 *A site for users to form groups and get together for activities*
 
