@@ -211,7 +211,7 @@ export default function CreatePost() {
           <div className="flex mt-1">
             {/* on click button effects? */}
             <button
-              className="text-sm bg-teal-600 text-white py-1 rounded-xl disabled:opacity-25 w-20 mr-2"
+              className="text-sm bg-emerald-600 text-white py-1 rounded-xl disabled:opacity-25 w-20 mr-2"
               disabled={isDisabled}
               type="submit"
               onClick={submitTag}
@@ -291,15 +291,14 @@ export default function CreatePost() {
             required
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
-        </div>
-        <div className="flex items-center justify-between gap-2">
           <p
             className={`font-bold text-sm ${
               description.length > 300 ? "text-red-700" : "text-gray-700"
             }`}
           >{`${description.length}/300`}</p>
-          <div>
-            {/* <Link href="/">
+        </div>
+        <div className="flex items-center justify-center gap-2">
+          {/* <Link href="/">
               <button
                 className="text-sm bg-gray-600 text-white p-2 mx-2 rounded-xl disabled:opacity-25"
                 type="submit"
@@ -307,14 +306,13 @@ export default function CreatePost() {
                 Cancel
               </button>
             </Link> */}
-            <button
-              className="text-sm bg-teal-600 text-white p-2 rounded-xl disabled:opacity-25"
-              disabled={isDisabled}
-              type="submit"
-            >
-              Create post
-            </button>
-          </div>
+          <button
+            className="text-sm bg-emerald-600 text-white p-2 rounded-xl disabled:opacity-25"
+            disabled={isDisabled}
+            type="submit"
+          >
+            Submit Post
+          </button>
         </div>
       </form>
     </>

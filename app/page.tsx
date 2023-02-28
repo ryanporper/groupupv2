@@ -65,7 +65,7 @@ export default function Home() {
       <div className="flex justify-center">
         {!createPost && (
           <button
-            className=" text-sm bg-emerald-700 text-white py-2 px-4 mb-1 rounded-md"
+            className=" text-sm bg-emerald-600 text-white py-2 px-4 mb-1 rounded-md"
             onClick={() => setCreatePost(true)}
           >
             Create Post
